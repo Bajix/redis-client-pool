@@ -1,0 +1,19 @@
+{
+  "redis" : {
+    "utility" : {
+      "host" : "localhost",
+      "port" : 6379,
+      "database" : 0
+    },
+    "session" : {
+      "host" : "localhost",
+      "port" : 6379,
+      "database" : 0
+    },
+    "kue" : {
+      "host" : "localhost",
+      "port" : 6379,
+      "database" : 2
+    }
+  }
+}

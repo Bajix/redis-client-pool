@@ -1,0 +1,32 @@
+{
+  "name": "redis-client-pool",
+  "version": "0.0.0",
+  "description": "Config driven, on demand, redis client factory",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bajix/redis-client-pool.git"
+  },
+  "keywords": [
+    "redis",
+    "config"
+  ],
+  "author": "Thomas Sieverding (Thomas@bajix.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bajix/redis-client-pool/issues"
+  },
+  "homepage": "https://github.com/Bajix/redis-client-pool#readme",
+  "dependencies": {
+    "config": "^1.15.0",
+    "object-hash": "^0.8.0",
+    "redis": "^0.12.1"
+  },
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "mocha": "^2.2.5"
+  }
+}
