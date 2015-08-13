@@ -1,17 +1,15 @@
-Redis Client Pool
-
-[ ![Codeship Status for Bajix/redis-client-pool](https://codeship.com/projects/47629180-22d5-0133-a61b-4232491ff1b0/status?branch=master)](https://codeship.com/projects/96293)
------
+# **Redis Client Pool**
 
 A [config](https://www.npmjs.com/package/config) driven redis client factory that pools.
 
 The use case here is to create a convience module to ensure that you're able to share redis clients without all the initialization glue.
 
+[![Version npm](https://img.shields.io/npm/v/redis-client-pool.svg?style=flat-square)](https://www.npmjs.com/package/redis-client-pool)[![Support via Gratipay](https://img.shields.io/gratipay/Bajix.svg)](https://gratipay.com/Bajix)[![NPM Downloads](https://img.shields.io/npm/dm/redis-client-pool.svg?style=flat-square)](https://www.npmjs.com/package/redis-client-pool)[![Build Status](https://img.shields.io/codeship/47629180-22d5-0133-a61b-4232491ff1b0.svg)](https://codeship.com/projects/96293)[![Dependencies](https://img.shields.io/david/Bajix/redis-client-pool.svg?style=flat-square)](https://david-dm.org/Bajix/redis-client-pool)
+
 
 ## Install
-From NPM:
 
-> npm install redis-client-pool --save
+[![NPM](https://nodei.co/npm/redis-client-pool.png?downloads=true&downloadRank=true)](https://nodei.co/npm/redis-client-pool/)
 
 ## Documentation
 
