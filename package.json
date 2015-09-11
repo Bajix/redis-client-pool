@@ -22,7 +22,7 @@
   "homepage": "https://github.com/Bajix/redis-client-pool#readme",
   "dependencies": {
     "config": "^1.15.0",
-    "object-hash": "^0.8.0",
+    "object-hash": "^0.9.1",
     "redis": "^0.12.1"
   },
   "devDependencies": {
