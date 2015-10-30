@@ -15,30 +15,38 @@ The use case here is to create a convience module to ensure that you're able to 
 
 For each option set defined in `config.redis`, this module will create the respective exportable getter that will either return a cached client, or create a new client and add it into the client cache.
 
-Clients are only created when accessed.
+Options can be set directly, or within `config.redis.options`. See [redis](https://www.npmjs.com/package/redis) for details.
 
-Additionally, for when it's necessary to create redis clients that are not pooled such as for Pub/Sub applications, `createClient` is also exposed.
+Clients are lazily initialized when accessed by the respective key.
 
-### `createClient(options, poolClient)`
+As of version 2, this module no longer supports creating clients from objects. Rather, we're now taking advantage of the newly added URI parsing capabilities of Redis. This makes life a lot easier when using environment variables to override settings.
 
-`options` *{Object OR String}*
+## Events
 
-Redis configuration settings. If passed a string, this will use the respective settings from `config.redis`.
+Redis Client pool emits the client event whenever a new client is created. Use this as an interface for binding to events on individual clients.
 
-In addition to the configuration options listed [redis](https://www.npmjs.com/package/redis), the following are supported:
+## Methods
 
-- `host` *{String}*
-- `port` *{Number}*
-- `socket` *{String}*
-- `database` *{Number}*
+### `createClient( URI , poolClient)`
 
-If database is present, this will automatically select the respective database.
+Useful for generating clients manually, such as for Pub/Sub applications.
+
+
+`URI` *{String}*
+
+Accepts either a key from config.redis, or a URI with connection info.
+
+If database is present within the URI query string, this will automatically select the respective database.
 
 `poolClient` *{Boolean}*
 
 Optional. If enabled, this will find a cached client, or create a new client and add it into the client cache.
 
-Do not pool Pub/Sub clients.
+**Do not pool Pub/Sub clients.**
+
+### `createFactory( URI , poolClient )`
+
+This is a thin wrapper around `createClient` used as a client generator. See above.
 
 ## Example
 
@@ -49,23 +57,10 @@ Do not pool Pub/Sub clients.
 // │   └── test.json
 
 // default.json
-//   "redis" : {
-//     "utility" : {
-//       "host" : "localhost",
-//       "port" : 6379,
-//       "database" : 0
-//     },
-//     "session" : {
-//       "host" : "localhost",
-//       "port" : 6379,
-//       "database" : 0
-//     },
-//     "kue" : {
-//       "host" : "localhost",
-//       "port" : 6379,
-//       "database" : 2
-//     }
-//   },
+//   "redis" : "redis://localhost:6379",
+//    "session" : "redis://localhost:6379?database=2",
+//    "kue" : "redis://username:password@localhost:6379?database=3"
+//  },
 //  "session" : {
 //    "ttl" : 2592000000,
 //    "secure" : false
