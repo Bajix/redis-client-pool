@@ -1,70 +1,71 @@
-var hash = require('object-hash'),
+var EventEmitter = require('events').EventEmitter,
+  crypto = require('crypto'),
   config = require('config'),
   redis = require('redis'),
   util = require('util'),
+  url = require('url'),
   clients = {};
 
-function createClient( options, poolClient ) {
-  if (typeof options === 'string') {
-    options = config.redis[options];
+var options = config.redis.options || {};
+
+var Pool = Object.create(EventEmitter.prototype);
+
+EventEmitter.call(Pool);
+
+Pool.createClient = function( uri, poolClient ) {
+  if (config.redis.hasOwnProperty(uri)) {
+    uri = config.redis[uri];
   }
 
-  options = util._extend({
-    host: '127.0.0.1',
-    port: 6379,
-    database: 0
-  }, options);
-
-  var ID = hash(options),
-    client;
+  var ID = crypto.createHash('md5').update(uri).digest('hex');
 
   if (poolClient && clients.hasOwnProperty(ID)) {
     return clients[ID];
   }
 
-  var database = options.database,
-    socket = options.socket,
-    host = options.host,
-    port = options.port;
+  var uriParts = url.parse(uri, true),
+    database = uriParts.query.database;
 
-  delete options.database;
-  delete options.socket;
-  delete options.host;
-  delete options.port;
+  delete uriParts.query;
 
-  client = socket ? redis.createClient(socket, options) : redis.createClient(port, host, options);
+  var client = redis.createClient(url.format(uriParts), options);
 
   if (database) {
     client.select(database);
   }
+
+  this.emit('client', client);
 
   if (poolClient) {
     clients[ID] = client;
   }
 
   return client;
-}
+};
 
-Object.defineProperty(exports, 'createClient', {
-  value: createClient,
-  configurable: false,
-  enumerable: false,
-  writeable: false
-});
+Pool.createFactory = function( uri, poolClient ) {
+  return function() {
+    return Pool.createClient(uri, poolClient);
+  };
+};
 
-Object.keys(config.redis).forEach(function( key ) {
+Object.keys(config.redis).filter(function( key ) {
+  return key !== 'options';
+}).forEach(function( key ) {
   var client;
 
-  Object.defineProperty(exports, key, {
+  Object.defineProperty(Pool, key, {
     get: function() {
       if (!client) {
-        client = createClient(key, true);
+        client = Pool.createClient(key, true);
       }
 
-      return client;
+      return client
     },
     configurable: false,
     enumerable: true,
     writeable: false
   });
 });
+
+module.exports = Pool;

@@ -1,19 +1,11 @@
 {
   "redis" : {
-    "utility" : {
-      "host" : "localhost",
-      "port" : 6379,
-      "database" : 0
-    },
-    "session" : {
-      "host" : "localhost",
-      "port" : 6379,
-      "database" : 0
-    },
-    "kue" : {
-      "host" : "localhost",
-      "port" : 6379,
-      "database" : 2
+    "utility" : "redis://localhost:6379",
+    "session" : "redis://localhost:6379",
+    "kue" : "redis://localhost:6379?database=2",
+    "sock": "/tmp/redis.sock",
+    "options": {
+      "detect_buffers": true
     }
   }
 }

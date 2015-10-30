@@ -1,13 +1,18 @@
-var clients = require('../index'),
-  config = require('config');
+var config = require('config'),
+  Pool = require('../index');
 
 describe('Redis Client Pool', function() {
-  it('pools clients', function() {
-    assert.equal(clients.utility, clients.session);
-    assert.notEqual(clients.utility, clients.kue);
+
+  it('emits new clients', function( done ) {
+    Pool.once('client', function( client ) {
+      done();
+    });
+
+    Pool.createClient('utility', false);
   });
 
-  it('clients are enumerable', function() {
-    assert.sameMembers(Object.keys(clients), Object.keys(config.redis));
+  it('clients pool', function() {
+    assert.equal(Pool.utility, Pool.session);
+    assert.notEqual(Pool.utility, Pool.kue);
   });
 });
