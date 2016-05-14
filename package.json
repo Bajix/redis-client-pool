@@ -21,8 +21,8 @@
   },
   "homepage": "https://github.com/Bajix/redis-client-pool#readme",
   "dependencies": {
-    "config": "^1.19.0",
-    "redis": "^2.5.0-1"
+    "config": "^1.20.1",
+    "redis": "^2.6.0-2"
   },
   "devDependencies": {
     "chai": "^3.5.0",
