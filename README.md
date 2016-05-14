@@ -19,15 +19,13 @@ Options can be set directly, or within `config.redis.options`. See [redis](https
 
 Clients are lazily initialized when accessed by the respective key.
 
-As of version 2, this module no longer supports creating clients from objects. Rather, we're now taking advantage of the newly added URI parsing capabilities of Redis. This makes life a lot easier when using environment variables to override settings.
-
 ## Events
 
 Redis Client pool emits the client event whenever a new client is created. Use this as an interface for binding to events on individual clients.
 
 ## Methods
 
-### `createClient( URI , poolClient)`
+### `createClient( URI , poolClient )`
 
 Useful for generating clients manually, such as for Pub/Sub applications.
 
