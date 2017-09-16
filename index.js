@@ -1,14 +1,16 @@
-var EventEmitter = require('events').EventEmitter,
+const {EventEmitter} = require('events'),
   crypto = require('crypto'),
   config = require('config'),
   redis = require('redis'),
-  util = require('util'),
-  url = require('url'),
-  clients = {};
+  url = require('url');
 
-var options = config.redis.options || {};
+config.util.setModuleDefaults('redis', {});
 
-var Pool = Object.create(EventEmitter.prototype);
+const options = config.redis.options || {};
+
+const Pool = Object.create(EventEmitter.prototype);
+
+const clients = {};
 
 EventEmitter.call(Pool);
 
@@ -17,18 +19,18 @@ Pool.createClient = function( uri, poolClient ) {
     uri = config.redis[uri];
   }
 
-  var ID = crypto.createHash('md5').update(uri).digest('hex');
+  let ID = crypto.createHash('md5').update(uri).digest('hex');
 
   if (poolClient && clients.hasOwnProperty(ID)) {
     return clients[ID];
   }
 
-  var uriParts = url.parse(uri, true),
+  let uriParts = url.parse(uri, true),
     database = uriParts.query.database;
 
   delete uriParts.query;
 
-  var client = redis.createClient(url.format(uriParts), options);
+  let client = redis.createClient(url.format(uriParts), options);
 
   if (database) {
     client.select(database);
