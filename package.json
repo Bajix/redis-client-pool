@@ -1,6 +1,6 @@
 {
   "name": "redis-client-pool",
-  "version": "2.2.3",
+  "version": "2.2.5",
   "description": "Config driven, on demand, redis client factory",
   "main": "index.js",
   "scripts": {
