@@ -36,7 +36,7 @@ Pool.createClient = function( uri, poolClient ) {
     client.select(database);
   }
 
-  this.emit('client', client);
+  Pool.emit('client', client);
 
   if (poolClient) {
     clients[ID] = client;
