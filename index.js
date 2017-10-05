@@ -30,7 +30,13 @@ Pool.createClient = function( uri, poolClient ) {
 
   delete uriParts.query;
 
-  let client = redis.createClient(url.format(uriParts), options);
+  if (uriParts.protocol === 'tcp:') {
+    uriParts.protocol = 'redis:';
+  }
+
+  uri = url.format(uriParts);
+
+  let client = redis.createClient(uri, options);
 
   if (database) {
     client.select(database);
